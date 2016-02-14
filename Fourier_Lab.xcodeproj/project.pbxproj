@@ -25,6 +25,8 @@
 /* Begin PBXFileReference section */
 		AA4833751C70830500D064A7 /* Fourier_Lab */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Fourier_Lab; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA4833781C70830500D064A7 /* Fourier_Lab.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Fourier_Lab.cpp; sourceTree = "<group>"; };
+		AA821E3E1C70861100CC9444 /* MyFunc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyFunc.h; sourceTree = "<group>"; };
+		AA821E3F1C70862F00CC9444 /* NormalFunc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NormalFunc.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,8 @@
 			isa = PBXGroup;
 			children = (
 				AA4833781C70830500D064A7 /* Fourier_Lab.cpp */,
+				AA821E3E1C70861100CC9444 /* MyFunc.h */,
+				AA821E3F1C70862F00CC9444 /* NormalFunc.h */,
 			);
 			path = Fourier_Lab;
 			sourceTree = "<group>";
@@ -237,6 +241,7 @@
 				AA48337E1C70830500D064A7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -7,9 +7,19 @@
 //
 
 #include <iostream>
+#include <vector>
+#include <math.h>
+
+using namespace std;
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
-    std::cout << "Hello, World!\n";
+    
+    vector<double> data(1024);
+    double dx = 2 * M_PI / data.size();
+    
+    for (int i=0; i< data.size(); i++)
+        data[i] = sin(dx * i);
+    
+    
     return 0;
 }

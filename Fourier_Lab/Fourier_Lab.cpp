@@ -10,15 +10,26 @@
 #include <vector>
 #include <math.h>
 
+#include "MyFunc.h"
+#include "NormalFunc.h"
+
 using namespace std;
 
 int main(int argc, const char * argv[]) {
     
-    vector<double> data(1024);
-    double dx = 2 * M_PI / data.size();
+    const size_t dataN = 1024;
     
-    for (int i=0; i< data.size(); i++)
-        data[i] = sin(dx * i);
+    vector<double> rData(dataN);
+    double dx = 2 * M_PI / dataN;
+    
+    for (int i=0; i< rData.size(); i++)
+        rData[i] = sin(dx * i);
+    
+    vector<double> iData(dataN, 0);
+    vector<double> rDest, iDest, spec;
+    
+    NormalDFT(rData, iData, rDest, iDest, spec);
+    
     
     
     return 0;

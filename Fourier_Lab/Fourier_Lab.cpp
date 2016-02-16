@@ -12,6 +12,7 @@
 
 #include "MyFunc.h"
 #include "NormalFunc.h"
+#include "MyTimer.h"
 
 using namespace std;
 
@@ -26,11 +27,25 @@ int main(int argc, const char * argv[]) {
         rData[i] = sin(dx * i);
     
     vector<double> iData(dataN, 0);
-    vector<double> rDest, iDest, spec;
+    vector<double> rDest1, iDest1, spec1;
+    vector<double> rDest2, iDest2, spec2;
+    vector<double> rDest3, iDest3, spec3;
     
-    NormalDFT(rData, iData, rDest, iDest, spec);
+    TIMER.start("NormalDFT", MICRO);
+    NormalDFT(rData, iData, rDest1, iDest1, spec1);
+    TIMER.stop();
     
+    initTable(1024);
+    TIMER.start("MyDFT1", MICRO);
+    MyDFT1(rData, iData, rDest2, iDest2, spec2);
+    TIMER.stop();
+   
+  
+    TIMER.start("MyDFT2", MICRO);
+    MyDFT2(rData, iData, rDest3, iDest3, spec3);
+    TIMER.stop();
     
+    TIMER.output();
     
     return 0;
 }

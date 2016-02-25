@@ -12,6 +12,7 @@
 #include<math.h>
 using namespace std;
 
+inline
 void NormalDFT(const vector<double>& rSrc, const vector<double>&iSrc,
                 vector<double>& rDest, vector<double>& iDest, vector<double>& spec)
 {

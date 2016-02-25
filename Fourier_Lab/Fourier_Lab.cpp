@@ -13,10 +13,12 @@
 #include "MyFunc.h"
 #include "NormalFunc.h"
 #include "MyTimer.h"
+#include "Plotter.h"
 
 using namespace std;
 
 int main(int argc, const char * argv[]) {
+    Plotter();
     
     const size_t dataN = 1024;
     

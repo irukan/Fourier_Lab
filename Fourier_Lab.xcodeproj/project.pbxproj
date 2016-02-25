@@ -30,6 +30,8 @@
 		AA821E3F1C70862F00CC9444 /* NormalFunc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NormalFunc.h; sourceTree = "<group>"; };
 		AA821E401C70BC0800CC9444 /* MyTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MyTimer.cpp; path = ../../SIMD_Lab/SIMD_Lab/MyTimer/MyTimer.cpp; sourceTree = "<group>"; };
 		AA821E411C70BC0800CC9444 /* MyTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyTimer.h; path = ../../SIMD_Lab/SIMD_Lab/MyTimer/MyTimer.h; sourceTree = "<group>"; };
+		AAFC80801C7DDE04001204ED /* Plotter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Plotter.h; sourceTree = "<group>"; };
+		AAFC80811C7DE00E001204ED /* Plot.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = Plot.py; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +69,8 @@
 				AA821E3F1C70862F00CC9444 /* NormalFunc.h */,
 				AA821E401C70BC0800CC9444 /* MyTimer.cpp */,
 				AA821E411C70BC0800CC9444 /* MyTimer.h */,
+				AAFC80801C7DDE04001204ED /* Plotter.h */,
+				AAFC80811C7DE00E001204ED /* Plot.py */,
 			);
 			path = Fourier_Lab;
 			sourceTree = "<group>";

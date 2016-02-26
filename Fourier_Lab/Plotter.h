@@ -10,18 +10,25 @@
 #define Plotter_h
 #include <fstream>
 #include <math.h>
-#include "MyFunc.h"
+#include "MyTaylorFunc.h"
+#include "MyTableFunc.h"
 #include "NormalFunc.h"
 void Plotter()
 {
     size_t dataN = 1024;
     double dx = 2 * M_PI / dataN;
+    initTable(1024);
     
     ofstream ofs("output.csv");
     
-    vector<double> rData(dataN);
-    for (int i=0; i< rData.size(); i++)
-        rData[i] = sin(dx * i * 100) + cos(dx * i * 200);
+    vector<double> rData(dataN, 0);
+    for (int i=dataN/2; i < dataN/2 + 15; i++)
+    {
+        //rData[i] = sin(dx * i *100.1234) + sin(dx * i *101.1234) + sin(dx * i *99.1234);
+        rData[i] = 1;
+    }
+
+    
     vector<double> iData(dataN, 0);
     vector<double> rDest1, iDest1, spec1;
     vector<double> rDest2, iDest2, spec2;
@@ -29,22 +36,27 @@ void Plotter()
     
     
     NormalDFT(rData, iData, rDest1, iDest1, spec1);
-    MyDFT2(rData, iData, rDest2, iDest2, spec2);
+    MyTaylorDFT(rData, iData, rDest2, iDest2, spec2);
     
-    for (size_t i = 0; i< dataN; i++)
+    for (size_t i = 0; i< dataN ; i++)
     {
-        double X = dx * i / M_PI;
-        double myCos = myTaylorCos(dx * i);
+        double RAD = dx * i / M_PI;
+        
+        double theta = dx * i;
+        int signSin, signCos;
+        rotateTheta(&theta, &signSin, &signCos);
+        double myCosData = myTableCos(theta);
         double Cos = cos(dx * i);
-        double mySin = myTaylorSin(dx * i);
+        double mySinData = myTaylorSin(theta, signSin);
         double Sin = sin(dx * i);
         double diff = fabs(spec1[i] - spec2[i]);
         
         ofs
-        << "," << X
-        << "," << myCos
+        << "," << RAD
+        << "," << rData[i]
+        << "," << myCosData
         << "," << Cos
-        << "," << mySin
+        << "," << mySinData
         << "," << Sin
         << "," << diff
         << "," << spec1[i]

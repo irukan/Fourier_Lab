@@ -13,7 +13,6 @@
 
 using namespace std;
 
-
 #define M_2PI M_PI*2.0
 #define M_1_2PI 1/M_PI/2
 
@@ -61,7 +60,7 @@ myTaylorCos(double theta, int sign)
     return ret * sign;
 }
 
-//#define myTaylorSin(theta,sign) (myTaylorCos(theta-M_PI_2,sign))
+///#define myTaylorSin(theta,sign) (myTaylorCos(theta-M_PI_2,sign))
 #define coef3 1.0/6
 #define coef5 1.0/120
 #define coef7 1.0/5040
@@ -80,7 +79,7 @@ myTaylorSin(double theta, int sign)
     keisu *= thetaMul2;
     ret -= coef7 * keisu;
     
-    return ret*sign;
+    return ret * sign;
 }
 
 
@@ -89,7 +88,7 @@ void MyTaylorDFT(const vector<double>& rSrc, const vector<double>&iSrc,
             vector<double>& rDest, vector<double>& iDest, vector<double>& spec)
 {
     size_t dataN = rSrc.size();
-    double dx = 2 * M_PI / dataN;
+    double dx = M_2PI / dataN;
     
     rDest.resize(dataN);
     iDest.resize(dataN);

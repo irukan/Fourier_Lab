@@ -1,23 +1,24 @@
 //
-//  Plotter.h
+//  PlotData.h
 //  Fourier_Lab
 //
 //  Created by kayama on 2016/02/24.
 //  Copyright © 2016年 kayama. All rights reserved.
 //
 
-#ifndef Plotter_h
-#define Plotter_h
+#ifndef PlotData_h
+#define PlotData_h
 #include <fstream>
 #include <math.h>
 #include "MyTaylorFunc.h"
 #include "MyTableFunc.h"
 #include "NormalFunc.h"
+
 void Plotter()
 {
     size_t dataN = 1024;
     double dx = 2 * M_PI / dataN;
-    initTable(1024);
+    initTable(dataN);
     
     ofstream ofs("output.csv");
     
@@ -36,7 +37,8 @@ void Plotter()
     
     
     NormalDFT(rData, iData, rDest1, iDest1, spec1);
-    MyTaylorDFT(rData, iData, rDest2, iDest2, spec2);
+    MyTableDFT(rData, iData, rDest2, iDest2, spec2);
+    MyTaylorDFT(rData, iData, rDest3, iDest3, spec3);
     
     for (size_t i = 0; i< dataN ; i++)
     {
@@ -45,11 +47,12 @@ void Plotter()
         double theta = dx * i;
         int signSin, signCos;
         rotateTheta(&theta, &signSin, &signCos);
-        double myCosData = myTableCos(theta);
+        double myCosData = myTableCos(i * 1);
         double Cos = cos(dx * i);
-        double mySinData = myTaylorSin(theta, signSin);
+        double mySinData = myTableSin(i * 2);
         double Sin = sin(dx * i);
-        double diff = fabs(spec1[i] - spec2[i]);
+        double diffTable = fabs(spec1[i] - spec2[i]);
+        double diffTaylor = fabs(spec1[i] - spec3[i]);
         
         ofs
         << "," << RAD
@@ -58,9 +61,11 @@ void Plotter()
         << "," << Cos
         << "," << mySinData
         << "," << Sin
-        << "," << diff
         << "," << spec1[i]
         << "," << spec2[i]
+        << "," << spec3[i]
+        << "," << diffTable
+        << "," << diffTaylor
         << endl;
         
     }
@@ -69,4 +74,4 @@ void Plotter()
     system("python Plot.py output.csv");
 }
 
-#endif /* Plotter_h */
+#endif /* PlotData_h */

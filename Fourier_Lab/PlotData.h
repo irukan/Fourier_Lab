@@ -137,6 +137,10 @@ void Plotter()
     csv.SetData("MyTaylorDFT-Imag", iDest);
     csv.SetData("MyTaylorDFT-Spec", spec);
     
+    MyTaylorDFT2(Source, iData, rDest, iDest, spec);
+    csv.SetData("MyTaylorDFT2-Real", rDest);
+    csv.SetData("MyTaylorDFT2-Imag", iDest);
+    csv.SetData("MyTaylorDFT2-Spec", spec);
     
     csv.OutputData("output.csv");
     system("python Plot.py output.csv");

@@ -29,6 +29,7 @@
 		AA03FFCA1C81ACA000C68BBC /* ExecTime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExecTime.h; sourceTree = "<group>"; };
 		AA4833751C70830500D064A7 /* Fourier_Lab */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Fourier_Lab; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA4833781C70830500D064A7 /* Fourier_Lab.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Fourier_Lab.cpp; sourceTree = "<group>"; };
+		AA6631E11C82FC2E004E2DE8 /* ExecTime.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = ExecTime.svg; path = Fourier_Lab/ExecTime.svg; sourceTree = "<group>"; };
 		AA821E3E1C70861100CC9444 /* MyTaylorFunc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyTaylorFunc.h; sourceTree = "<group>"; };
 		AA821E3F1C70862F00CC9444 /* NormalFunc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NormalFunc.h; sourceTree = "<group>"; };
 		AA821E401C70BC0800CC9444 /* MyTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MyTimer.cpp; path = ../../SIMD_Lab/SIMD_Lab/MyTimer/MyTimer.cpp; sourceTree = "<group>"; };
@@ -51,6 +52,7 @@
 		AA48336C1C70830500D064A7 = {
 			isa = PBXGroup;
 			children = (
+				AA6631E11C82FC2E004E2DE8 /* ExecTime.svg */,
 				AA4833771C70830500D064A7 /* Fourier_Lab */,
 				AA4833761C70830500D064A7 /* Products */,
 			);

@@ -28,6 +28,7 @@ void ExecTime()
     vector<double> rDest4(dataN), iDest4(dataN), spec4(dataN);
     vector<double> rDest5(dataN), iDest5(dataN), spec5(dataN);
     vector<double> rDest6(dataN), iDest6(dataN), spec6(dataN);
+    vector<double> rDest7(dataN), iDest7(dataN), spec7(dataN);
     
     for (size_t lp = 0; lp < loopN; lp++)
     {
@@ -36,11 +37,15 @@ void ExecTime()
         TIMER.stop();
 
         TIMER.start("NormalDFT2", MICRO);
-        NormalDFT(rData, iData, rDest5, iDest5, spec5);
+        NormalDFT2(rData, iData, rDest5, iDest5, spec5);
         TIMER.stop();
 
         TIMER.start("MyTaylorDFT", MICRO);
         MyTaylorDFT(rData, iData, rDest2, iDest2, spec2);
+        TIMER.stop();
+
+        TIMER.start("MyTaylorDFT2", MICRO);
+        MyTaylorDFT2(rData, iData, rDest7, iDest7, spec7);
         TIMER.stop();
         
         TIMER.start("MyTableDFT", MICRO);

@@ -53,6 +53,8 @@ myTaylorCos(double theta, int sign)
     ret += coef4 * keisu;
     keisu *= thetaMul2;
     ret -= coef6 * keisu;
+    keisu *= thetaMul2;
+    ret += coef8 * keisu;
     //ret += coef8  * theta * theta * theta * theta * theta * theta * theta * theta;
     //ret -= coef10 * theta * theta * theta * theta * theta * theta * theta * theta * theta * theta;
     //ret += coef12 * theta * theta * theta * theta * theta * theta * theta * theta * theta * theta * theta * theta;
@@ -78,10 +80,11 @@ myTaylorSin(double theta, int sign)
     ret += coef5 * keisu;
     keisu *= thetaMul2;
     ret -= coef7 * keisu;
+    keisu *= thetaMul2;
+    ret += coef9 * keisu;
     
     return ret * sign;
 }
-
 
 inline
 void MyTaylorDFT(const vector<double>& rSrc, const vector<double>&iSrc,
@@ -109,6 +112,51 @@ void MyTaylorDFT(const vector<double>& rSrc, const vector<double>&iSrc,
             
             ReSum += rSrc[k] * cos + iSrc[k] * sin;
             ImSum += -rSrc[k] * sin + iSrc[k] * cos;
+        }
+        rDest[i] = ReSum;
+        iDest[i] = ImSum;
+        spec[i] = sqrt(ReSum * ReSum + ImSum * ImSum);
+    }
+}
+
+// 回転因子計算をN^2ループ外で行う
+inline
+void MyTaylorDFT2(const vector<double>& rSrc, const vector<double>&iSrc,
+                 vector<double>& rDest, vector<double>& iDest, vector<double>& spec)
+{
+    int dataN = (int)rSrc.size();
+    double dx = M_2PI / dataN;
+    
+    rDest.resize(dataN);
+    iDest.resize(dataN);
+    spec.resize(dataN);
+    
+    // 回転因子の計算
+    double *w1 = new double[dataN];
+    double *w2 = new double[dataN];
+    for (size_t i = 0; i < dataN; i++)
+    {
+        double theta = dx * i;
+        int signSin, signCos;
+        rotateTheta(&theta, &signSin, &signCos);
+
+        w1[i] = myTaylorCos(theta, signCos);
+        w2[i] = myTaylorSin(theta, signSin);
+    }
+    
+    int index = -1;
+    for (int i = 0; i < dataN; i++)
+    {
+        double ReSum = 0.0;
+        double ImSum = 0.0;
+        
+        for (int k = 0; k< dataN; k++)
+        {
+            index = i * k;
+            index -= (index/dataN) * dataN;
+            
+            ReSum += rSrc[k] * w1[index] + iSrc[k] * w2[index];
+            ImSum += -rSrc[k] * w2[index] + iSrc[k] * w1[index];
         }
         rDest[i] = ReSum;
         iDest[i] = ImSum;

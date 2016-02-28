@@ -16,19 +16,36 @@ using namespace std;
 
 static double* cosTable;
 static double* sinTable;
+static double* sseTableSin;
+static double* sseTableCos;
 static int TableNum;
+static int SSETableNum;
 
-void initTable(size_t num)
+void initTable(int num)
 {
     cosTable = new __attribute__((aligned(16))) double[num];
     sinTable = new __attribute__((aligned(16))) double[num];
     TableNum = num;
+    
+    sseTableSin = new __attribute__((aligned(16))) double[num * 2];
+    sseTableCos = new __attribute__((aligned(16))) double[num * 2];
+    
+    SSETableNum = num * 2;
     double dx = M_2PI / num;
     
     for (int i = 0; i< num; i++)
     {
         sinTable[i] = sin(i * dx);
         cosTable[i] = cos(i * dx);
+    }
+    
+    for (int i = 0; i< num; i++)
+    {
+        sseTableSin[i*2] = sin(i * dx);//Real
+        sseTableSin[i*2 + 1] = -sin(i * dx);//Imag
+        
+        sseTableCos[i*2] = cos(i * dx);//Real
+        sseTableCos[i*2 + 1] = cos(i * dx);//Imag
     }
 }
 
@@ -46,6 +63,13 @@ inline
 double myTableSin(size_t idx)
 {
     return sinTable[idx];
+}
+
+inline
+void convIdxSSE(int *idx)
+{
+    *idx -= (*idx / TableNum) * TableNum;
+    *idx *= 2;
 }
 
 inline
@@ -107,8 +131,8 @@ void MyTableDFT_SSE(const vector<double>& rSrc, const vector<double>&iSrc,
             
 //            __m128d Sin = _mm_load_pd(&sinTable[index]);
 //            __m128d Cos = _mm_load_pd(&cosTable[index]);
-            __m128d Sin = {sinTable[index1], sinTable[index2]};
-            __m128d Cos = {cosTable[index1], cosTable[index2]};
+            __m128d Sin = _mm_set_pd(sinTable[index2], sinTable[index1]);
+            __m128d Cos = _mm_set_pd(cosTable[index2], cosTable[index1]);
             
             __m128d temp_Re = _mm_add_pd(_mm_mul_pd(Re_src, Cos), _mm_mul_pd(Im_src_, Sin));
             __m128d temp_Im = _mm_sub_pd(_mm_mul_pd(Im_src_, Cos), _mm_mul_pd(Re_src, Sin));
@@ -125,5 +149,40 @@ void MyTableDFT_SSE(const vector<double>& rSrc, const vector<double>&iSrc,
 //        _mm_storeu_pd(&spec[i], _mm_sqrt_pd(_mm_add_pd(_mm_mul_pd(Re_sum, Re_sum), _mm_mul_pd(Im_sum, Im_sum))));
     }
 }
+
+inline
+void MyTableDFT_SSE2(const vector<double>& rSrc, const vector<double>&iSrc,
+                    vector<double>& rDest, vector<double>& iDest, vector<double>& spec)
+{
+    size_t dataN = rSrc.size();
+    
+    rDest.resize(dataN);
+    iDest.resize(dataN);
+    spec.resize(dataN);
+    
+    for (int i = 0; i < dataN; i ++)
+    {
+        __m128d Re_Im_sum = _mm_setzero_pd();
+        
+        for (int k = 0; k< dataN; k ++)
+        {
+            int index = i * k;
+            convIdxSSE(&index);
+            
+            __m128d Sin = _mm_load_pd(&sseTableSin[index]);
+            __m128d Cos = _mm_load_pd(&sseTableCos[index]);
+            
+            __m128d data = {rSrc[k], iSrc[k]};
+            __m128d temp1 = _mm_mul_pd(data, Cos);
+            __m128d temp2 = _mm_mul_pd(data, Sin);
+            
+            Re_Im_sum = _mm_add_pd(Re_Im_sum, _mm_add_pd(temp1, temp2));
+        }
+        rDest[i] = Re_Im_sum[0];
+        iDest[i] = Re_Im_sum[1];
+        spec[i] = sqrt(rDest[i] * rDest[i] + iDest[i] * iDest[i]);
+    }
+}
+
 
 #endif /* MyTableFunc_h */

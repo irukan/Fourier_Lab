@@ -13,7 +13,7 @@ void ExecTime()
 {
     const size_t dataN = 1024;
     initTable(dataN);
-    const size_t loopN = 500;
+    const size_t loopN = 1000;
     vector<double> rData(dataN);
     double dx = 2 * M_PI / dataN;
     
@@ -27,6 +27,7 @@ void ExecTime()
     vector<double> rDest3(dataN), iDest3(dataN), spec3(dataN);
     vector<double> rDest4(dataN), iDest4(dataN), spec4(dataN);
     vector<double> rDest5(dataN), iDest5(dataN), spec5(dataN);
+    vector<double> rDest6(dataN), iDest6(dataN), spec6(dataN);
     
     for (size_t lp = 0; lp < loopN; lp++)
     {
@@ -49,6 +50,10 @@ void ExecTime()
         TIMER.start("MyTableDFT_SSE", MICRO);
         MyTableDFT_SSE(rData, iData, rDest4, iDest4, spec4);
         TIMER.stop();
+        
+//        TIMER.start("MyTableDFT_SSE2", MICRO);
+//        MyTableDFT_SSE2(rData, iData, rDest6, iDest6, spec6);
+//        TIMER.stop();
     }
     
     TIMER.output("execTime.csv");

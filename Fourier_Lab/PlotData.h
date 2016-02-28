@@ -10,9 +10,72 @@
 #define PlotData_h
 #include <fstream>
 #include <math.h>
+#include <map>
+#include <vector>
+#include <string>
+#include <sstream>
 #include "MyTaylorFunc.h"
 #include "MyTableFunc.h"
 #include "NormalFunc.h"
+
+using namespace::std;
+class CSVOutput
+{
+private:
+    map<string, vector<double>&> m_data;
+    size_t maxDataN;
+public:
+    CSVOutput()
+    {
+        maxDataN = 0;
+    }
+    
+    void
+    SetData(string name, vector<double>& data)
+    {
+        //m_data[name] = data;
+        m_data.insert( map<string, vector<double>&>::value_type( name, data ) );
+        maxDataN = maxDataN < data.size() ? data.size() : maxDataN;
+    }
+    
+    void
+    OutputData(string fileName)
+    {
+        ofstream ofs(fileName);
+        
+        map<string, vector<double>&>::iterator itr_data;
+        
+        // key名の行　出力
+        for (itr_data = m_data.begin(); itr_data != m_data.end(); ++itr_data)
+        {
+            if (itr_data != m_data.begin())
+                ofs << ",";
+            
+            ofs << itr_data->first;
+        }
+        ofs << endl;
+        
+        // データの出力
+        for (size_t i = 0; i < maxDataN; i++)
+        {
+            ostringstream oss;
+            for (itr_data = m_data.begin(); itr_data != m_data.end(); ++itr_data)
+            {
+                if (itr_data != m_data.begin())
+                    oss << ",";
+                
+                if ((itr_data->second).size() > i)
+                    oss << (itr_data->second)[i];
+            }
+            oss << endl;
+            
+            ofs << oss.str();
+        }
+        // ファイル出力
+        ofs.close();
+    }
+};
+
 
 void Plotter()
 {
@@ -20,58 +83,66 @@ void Plotter()
     double dx = 2 * M_PI / dataN;
     initTable(dataN);
     
-    ofstream ofs("output.csv");
+    CSVOutput csv;
     
-    vector<double> rData(dataN, 0);
+    vector<double> Source(dataN, 0);
     for (int i=dataN/2; i < dataN/2 + 15; i++)
     {
-        //rData[i] = sin(dx * i *100.1234) + sin(dx * i *101.1234) + sin(dx * i *99.1234);
-        rData[i] = 1;
+        //Source[i] = sin(dx * i *100.1234) + sin(dx * i *101.1234) + sin(dx * i *99.1234);
+        Source[i] = 1;
     }
-
+//    for (int i =0; i < dataN; i++)
+//    {
+//        Source[i] = sin(dx * i * 100.1234);
+//    }
+    csv.SetData("Source", Source);
+    
+    vector<double> Rad, Cos, Sin;
+    for (size_t i = 0; i< dataN/2 ; i++)
+    {
+        Rad.push_back(dx * i / M_PI);
+        Cos.push_back(cos(dx * i));
+        Sin.push_back(sin(dx * i));
+    }
+    csv.SetData("Rad", Rad);
+    csv.SetData("Cos", Cos);
+    csv.SetData("Sin", Sin);
     
     vector<double> iData(dataN, 0);
-    vector<double> rDest1, iDest1, spec1;
-    vector<double> rDest2, iDest2, spec2;
-    vector<double> rDest3, iDest3, spec3;
+    vector<double> rDest, iDest, spec;
     
     
-    NormalDFT(rData, iData, rDest1, iDest1, spec1);
-    MyTableDFT(rData, iData, rDest2, iDest2, spec2);
-    MyTaylorDFT(rData, iData, rDest3, iDest3, spec3);
+    NormalDFT(Source, iData, rDest, iDest, spec);
+    csv.SetData("NormalDFT-Real", rDest);
+    csv.SetData("NormalDFT-Imag", iDest);
+    csv.SetData("NormalDFT-Spec", spec);
     
-    for (size_t i = 0; i< dataN ; i++)
-    {
-        double RAD = dx * i / M_PI;
-        
-        double theta = dx * i;
-        int signSin, signCos;
-        rotateTheta(&theta, &signSin, &signCos);
-        double myCosData = myTableCos(i * 1);
-        double Cos = cos(dx * i);
-        double mySinData = myTableSin(i * 2);
-        double Sin = sin(dx * i);
-        double diffTable = fabs(spec1[i] - spec2[i]);
-        double diffTaylor = fabs(spec1[i] - spec3[i]);
-        
-        ofs
-        << "," << RAD
-        << "," << rData[i]
-        << "," << myCosData
-        << "," << Cos
-        << "," << mySinData
-        << "," << Sin
-        << "," << spec1[i]
-        << "," << spec2[i]
-        << "," << spec3[i]
-        << "," << diffTable
-        << "," << diffTaylor
-        << endl;
-        
-    }
+    NormalDFT2(Source, iData, rDest, iDest, spec);
+    csv.SetData("NormalDFT2-Real", rDest);
+    csv.SetData("NormalDFT2-Imag", iDest);
+    csv.SetData("NormalDFT2-Spec", spec);
+
+    MyTableDFT(Source, iData, rDest, iDest, spec);
+    csv.SetData("MyTableDFT-Real", rDest);
+    csv.SetData("MyTableDFT-Imag", iDest);
+    csv.SetData("MyTableDFT-Spec", spec);
     
-    ofs.close();
+    MyTableDFT_SSE(Source, iData, rDest, iDest, spec);
+    csv.SetData("MyTableDFT_SSE-Real", rDest);
+    csv.SetData("MyTableDFT_SSE-Imag", iDest);
+    csv.SetData("MyTableDFT_SSE-Spec", spec);
+
+    MyTaylorDFT(Source, iData, rDest, iDest, spec);
+    csv.SetData("MyTaylorDFT-Real", rDest);
+    csv.SetData("MyTaylorDFT-Imag", iDest);
+    csv.SetData("MyTaylorDFT-Spec", spec);
+    
+    
+    csv.OutputData("output.csv");
     system("python Plot.py output.csv");
+
 }
+
+
 
 #endif /* PlotData_h */

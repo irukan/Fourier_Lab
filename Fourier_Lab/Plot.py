@@ -7,14 +7,14 @@ from scipy.stats import norm
 
 input = sys.argv[1]
 
-db = pd.read_csv(input, names=("Rad", "Data", "myCos", "Cos", "mySin", "Sin", "NormalDFT", "MyTableDFT", "MyTaylorDFT", "diffTable", "diffTaylor"))
+
+db = pd.read_csv(input)
+
+
+#plt.plot(db["Source"].values)
+plt.plot(db["NormalDFT-Spec"].values)
 
 
 
-#plt.plot(db["Rad"].values, db["mySin"].values)
-#plt.plot(db["Rad"].values, db["myCos"].values)
-#plt.plot(db["MyTableDFT"].values)
-#plt.plot(db["MyTaylorDFT"].values)
-plt.plot(db["MyTableDFT"].values)
-#plt.plot(db["diffTaylor"].values)
+
 plt.show()

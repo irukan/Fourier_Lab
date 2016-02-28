@@ -12,7 +12,10 @@ db = pd.read_csv(input)
 
 
 #plt.plot(db["Source"].values)
-plt.plot(db["NormalDFT-Spec"].values)
+#plt.plot(db["NormalDFT2-Spec"].values)
+plt.plot(db["MyTableDFT-Spec"].values)
+
+plt.plot(db["MyTableDFT_SSE-Spec"].values)
 
 
 

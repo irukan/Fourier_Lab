@@ -22,7 +22,7 @@ using namespace::std;
 class CSVOutput
 {
 private:
-    map<string, vector<double>&> m_data;
+    map<string, vector<double>> m_data;
     size_t maxDataN;
 public:
     CSVOutput()
@@ -31,7 +31,7 @@ public:
     }
     
     void
-    SetData(string name, vector<double>& data)
+    SetData(string name, vector<double> data)
     {
         //m_data[name] = data;
         m_data.insert( map<string, vector<double>&>::value_type( name, data ) );
@@ -43,7 +43,7 @@ public:
     {
         ofstream ofs(fileName);
         
-        map<string, vector<double>&>::iterator itr_data;
+        map<string, vector<double>>::iterator itr_data;
         
         // key名の行　出力
         for (itr_data = m_data.begin(); itr_data != m_data.end(); ++itr_data)

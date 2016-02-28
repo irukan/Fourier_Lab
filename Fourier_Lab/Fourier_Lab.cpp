@@ -21,9 +21,9 @@ using namespace std;
 
 int main(int argc, const char * argv[]) {
     
-    //Plotter();
+    Plotter();
     
-    ExecTime();
+    //ExecTime();
     
     return 0;
 }

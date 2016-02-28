@@ -79,7 +79,7 @@ public:
 
 void Plotter()
 {
-    size_t dataN = 1024;
+    size_t dataN = pow(2, 10);
     double dx = 2 * M_PI / dataN;
     initTable(dataN);
     
@@ -141,6 +141,11 @@ void Plotter()
     csv.SetData("MyTaylorDFT2-Real", rDest);
     csv.SetData("MyTaylorDFT2-Imag", iDest);
     csv.SetData("MyTaylorDFT2-Spec", spec);
+    
+    MyTaylorDFT2(Source, iData, rDest, iDest, spec);
+    csv.SetData("NormalFFT-Real", rDest);
+    csv.SetData("NormalFFT-Imag", iDest);
+    csv.SetData("NormalFFT-Spec", spec);
     
     csv.OutputData("output.csv");
     system("python Plot.py output.csv");

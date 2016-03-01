@@ -14,6 +14,7 @@
 #include "MyTaylorFunc.h"
 #include "NormalFunc.h"
 #include "MyTimer.h"
+#include "MyFFT.h"
 #include "PlotData.h"
 #include "ExecTime.h"
 
@@ -21,7 +22,7 @@ using namespace std;
 
 int main(int argc, const char * argv[]) {
     
-    Plotter();
+    PlotData();
     
     //ExecTime();
     

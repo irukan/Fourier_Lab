@@ -162,6 +162,9 @@ void MyTaylorDFT2(const vector<double>& rSrc, const vector<double>&iSrc,
         iDest[i] = ImSum;
         spec[i] = sqrt(ReSum * ReSum + ImSum * ImSum);
     }
+    
+    delete [] w1;
+    delete [] w2;
 }
 
 #endif /* MyTaylorFunc_h */

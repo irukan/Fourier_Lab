@@ -9,15 +9,10 @@
 #ifndef PlotData_h
 #define PlotData_h
 
-
-
-
-void PlotData()
+void PlotData(int dataN)
 {
-    int dataN = 1024;
     double dx = 2 * M_PI / dataN;
-    initTable(dataN);
-    
+    initTable(dataN);    
     
     vector<double> Source(dataN, 0);
     for (int i=dataN/2; i < dataN/2 + 15; i++)
@@ -43,41 +38,49 @@ void PlotData()
     vector<double> rDest, iDest, spec;
     
     
-    NormalDFT(Source, iData, rDest, iDest, spec);
-    PLOTER.SetData("NormalDFT-Real", rDest);
-    PLOTER.SetData("NormalDFT-Imag", iDest);
-    PLOTER.SetData("NormalDFT-Spec", spec);
+//    NormalDFT(Source, iData, rDest, iDest, spec);
+//    PLOTER.SetData("NormalDFT-Real", rDest);
+//    PLOTER.SetData("NormalDFT-Imag", iDest);
+//    PLOTER.SetData("NormalDFT-Spec", spec);
+//    rDest.clear(); iDest.clear(); spec.clear();
+//
+//    NormalDFT2(Source, iData, rDest, iDest, spec);
+//    PLOTER.SetData("NormalDFT2-Real", rDest);
+//    PLOTER.SetData("NormalDFT2-Imag", iDest);
+//    PLOTER.SetData("NormalDFT2-Spec", spec);
+//
+//    MyTableDFT(Source, iData, rDest, iDest, spec);
+//    PLOTER.SetData("MyTableDFT-Real", rDest);
+//    PLOTER.SetData("MyTableDFT-Imag", iDest);
+//    PLOTER.SetData("MyTableDFT-Spec", spec);
+//    
+    MyTableDFT_SSE2(Source, iData, rDest, iDest, spec);
+    PLOTER.SetData("MyTableDFT_SSE2-Real", rDest);
+    PLOTER.SetData("MyTableDFT_SSE2-Imag", iDest);
+    PLOTER.SetData("MyTableDFT_SSE2-Spec", spec);
+    rDest.clear(); iDest.clear(); spec.clear();
+//
+//    MyTaylorDFT(Source, iData, rDest, iDest, spec);
+//    PLOTER.SetData("MyTaylorDFT-Real", rDest);
+//    PLOTER.SetData("MyTaylorDFT-Imag", iDest);
+//    PLOTER.SetData("MyTaylorDFT-Spec", spec);
+//    
+//    MyTaylorDFT2(Source, iData, rDest, iDest, spec);
+//    PLOTER.SetData("MyTaylorDFT2-Real", rDest);
+//    PLOTER.SetData("MyTaylorDFT2-Imag", iDest);
+//    PLOTER.SetData("MyTaylorDFT2-Spec", spec);
     
-    NormalDFT2(Source, iData, rDest, iDest, spec);
-    PLOTER.SetData("NormalDFT2-Real", rDest);
-    PLOTER.SetData("NormalDFT2-Imag", iDest);
-    PLOTER.SetData("NormalDFT2-Spec", spec);
-
-    MyTableDFT(Source, iData, rDest, iDest, spec);
-    PLOTER.SetData("MyTableDFT-Real", rDest);
-    PLOTER.SetData("MyTableDFT-Imag", iDest);
-    PLOTER.SetData("MyTableDFT-Spec", spec);
-    
-    MyTableDFT_SSE(Source, iData, rDest, iDest, spec);
-    PLOTER.SetData("MyTableDFT_SSE-Real", rDest);
-    PLOTER.SetData("MyTableDFT_SSE-Imag", iDest);
-    PLOTER.SetData("MyTableDFT_SSE-Spec", spec);
-
-    MyTaylorDFT(Source, iData, rDest, iDest, spec);
-    PLOTER.SetData("MyTaylorDFT-Real", rDest);
-    PLOTER.SetData("MyTaylorDFT-Imag", iDest);
-    PLOTER.SetData("MyTaylorDFT-Spec", spec);
-    
-    MyTaylorDFT2(Source, iData, rDest, iDest, spec);
-    PLOTER.SetData("MyTaylorDFT2-Real", rDest);
-    PLOTER.SetData("MyTaylorDFT2-Imag", iDest);
-    PLOTER.SetData("MyTaylorDFT2-Spec", spec);
-    
-    NormalFFT(Source, iData, rDest, iDest, spec);
-    PLOTER.SetData("NormalFFT-Real", rDest);
-    PLOTER.SetData("NormalFFT-Imag", iDest);
-    PLOTER.SetData("NormalFFT-Spec", spec);
-   
+    FFT(Source, iData, rDest, iDest, spec);
+    PLOTER.SetData("FFT-Real", rDest);
+    PLOTER.SetData("FFT-Imag", iDest);
+    PLOTER.SetData("FFT-Spec", spec);
+    rDest.clear(); iDest.clear(); spec.clear();
+//    
+//    ComplexDFT(Source, iData, rDest, iDest, spec);
+//    PLOTER.SetData("ComplexDFT-Real", rDest);
+//    PLOTER.SetData("ComplexDFT-Imag", iDest);
+//    PLOTER.SetData("ComplexDFT-Spec", spec);
+//    rDest.clear(); iDest.clear(); spec.clear();
 }
 
 

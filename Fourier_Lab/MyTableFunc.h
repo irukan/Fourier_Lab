@@ -160,27 +160,36 @@ void MyTableDFT_SSE2(const vector<double>& rSrc, const vector<double>&iSrc,
     iDest.resize(dataN);
     spec.resize(dataN);
     
-    for (int i = 0; i < dataN; i ++)
+    double* complex = new __attribute__((aligned(16))) double[dataN * 2];
+    for (int i = 0; i < dataN; i++)
     {
-        __m128d Re_Im_sum = _mm_setzero_pd();
+        complex[2*i] = rSrc[i];
+        complex[2*i + 1] = iSrc[i];
+    }
+    
+    __m128d minus = {1, -1};
+    for (int i = 0; i < dataN; i++)
+    {
+        __m128d Sum = _mm_setzero_pd();
         
-        for (int k = 0; k< dataN; k ++)
+        for (int k = 0; k< dataN; k++)
         {
             int index = i * k;
-            convIdxSSE(&index);
+            convIdx(&index);
+            __m128d Cos = _mm_set1_pd(cosTable[index]);
+            __m128d Sin = _mm_set1_pd(sinTable[index]);
             
-            __m128d Sin = _mm_load_pd(&sseTableSin[index]);
-            __m128d Cos = _mm_load_pd(&sseTableCos[index]);
+            __m128d src = _mm_load_pd(&complex[k*2]);
             
-            __m128d data = {rSrc[k], iSrc[k]};
-            __m128d temp1 = _mm_mul_pd(data, Cos);
-            __m128d temp2 = _mm_mul_pd(data, Sin);
-            
-            Re_Im_sum = _mm_add_pd(Re_Im_sum, _mm_add_pd(temp1, temp2));
+            Sum = _mm_add_pd(Sum, _mm_mul_pd(src, Cos));
+            Sum = _mm_add_pd(Sum, _mm_mul_pd(_mm_shuffle_pd(src, src, _MM_SHUFFLE2(0, 1)), _mm_mul_pd(Sin, minus)));
+            //ReSum +=  rSrc[k] * Cos + iSrc[k] * Sin;
+            //ImSum +=  iSrc[k] * Cos + rSrc[k] * -Sin;
         }
-        rDest[i] = Re_Im_sum[0];
-        iDest[i] = Re_Im_sum[1];
-        spec[i] = sqrt(rDest[i] * rDest[i] + iDest[i] * iDest[i]);
+        rDest[i] = Sum[0];
+        iDest[i] = Sum[1];
+        Sum = _mm_mul_pd(Sum, Sum);
+        spec[i] = Sum[0] + Sum[1];
     }
 }
 

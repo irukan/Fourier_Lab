@@ -36,6 +36,7 @@
 		AA821E3F1C70862F00CC9444 /* NormalFunc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NormalFunc.h; sourceTree = "<group>"; };
 		AA821E401C70BC0800CC9444 /* MyTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MyTimer.cpp; path = ../../SIMD_Lab/SIMD_Lab/MyTimer/MyTimer.cpp; sourceTree = "<group>"; };
 		AA821E411C70BC0800CC9444 /* MyTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyTimer.h; path = ../../SIMD_Lab/SIMD_Lab/MyTimer/MyTimer.h; sourceTree = "<group>"; };
+		AA9364F01C8B119C00C3240C /* ComplexFunc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ComplexFunc.h; sourceTree = "<group>"; };
 		AAFC80801C7DDE04001204ED /* PlotData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlotData.h; sourceTree = "<group>"; };
 		AAFC80811C7DE00E001204ED /* Plot.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = Plot.py; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -72,6 +73,7 @@
 			isa = PBXGroup;
 			children = (
 				AA4833781C70830500D064A7 /* Fourier_Lab.cpp */,
+				AA9364F01C8B119C00C3240C /* ComplexFunc.h */,
 				AA6631E31C85C006004E2DE8 /* MyFFT.h */,
 				AA821E3E1C70861100CC9444 /* MyTaylorFunc.h */,
 				AA03FFC71C8090EB00C68BBC /* MyTableFunc.h */,

@@ -15,6 +15,7 @@
 #include "NormalFunc.h"
 #include "MyTimer.h"
 #include "MyFFT.h"
+#include "ComplexFunc.h"
 #include "PlotData.h"
 #include "ExecTime.h"
 
@@ -22,9 +23,9 @@ using namespace std;
 
 int main(int argc, const char * argv[]) {
     
-    PlotData();
+    //PlotData(1024);
     
-    //ExecTime();
+    ExecTime(1024, 1000);
     
     return 0;
 }

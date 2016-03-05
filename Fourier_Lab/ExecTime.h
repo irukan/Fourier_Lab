@@ -9,11 +9,9 @@
 #ifndef ExecTime_h
 #define ExecTime_h
 
-void ExecTime()
+void ExecTime(int dataN, int loopN)
 {
-    const int dataN = pow(2, 10);
     initTable(dataN);
-    const size_t loopN = 100;
     vector<double> rData(dataN);
     double dx = 2 * M_PI / dataN;
     
@@ -26,13 +24,13 @@ void ExecTime()
     
     for (size_t lp = 0; lp < loopN; lp++)
     {
-        TIMER.start("NormalDFT", MICRO);
-        NormalDFT(rData, iData, rDest, iDest, spec);
-        TIMER.stop();
-        
-        TIMER.start("NormalDFT_DIV", MICRO);
+//        TIMER.start("NormalDFT", MICRO);
+//        NormalDFT(rData, iData, rDest, iDest, spec);
+//        TIMER.stop();
+//        
+//        TIMER.start("NormalFFT", MICRO);
         NormalFFT(rData, iData, rDest, iDest, spec);
-        TIMER.stop();
+//        TIMER.stop();
 
 //        TIMER.start("NormalDFT2", MICRO);
 //        NormalDFT2(rData, iData, rDest, iDest, spec);
@@ -49,18 +47,18 @@ void ExecTime()
 //        TIMER.start("MyTableDFT", MICRO);
 //        MyTableDFT(rData, iData, rDest, iDest, spec);
 //        TIMER.stop();
-//        
-//        TIMER.start("MyTableDFT_SSE", MICRO);
-//        MyTableDFT_SSE(rData, iData, rDest, iDest, spec);
-//        TIMER.stop();
-//        
-//        TIMER.start("MyTableDFT_SSE2", MICRO);
-//        MyTableDFT_SSE2(rData, iData, rDest, iDest, spec);
-//        TIMER.stop();
+
+        TIMER.start("MyTableDFT_SSE", MICRO);
+        MyTableDFT_SSE(rData, iData, rDest, iDest, spec);
+        TIMER.stop();
+//
+        TIMER.start("MyTableDFT_SSE2", MICRO);
+        MyTableDFT_SSE2(rData, iData, rDest, iDest, spec);
+        TIMER.stop();
         
-//        TIMER.start("NormalFFT", MICRO);
-//        NormalFFT(rData, iData, rDest, iDest, spec);
-//        TIMER.stop();
+        TIMER.start("FFT", MICRO);
+        FFT(rData, iData, rDest, iDest, spec);
+        TIMER.stop();
     }
     
     TIMER.output("execTime.csv");

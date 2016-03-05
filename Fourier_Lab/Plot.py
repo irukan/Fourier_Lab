@@ -15,8 +15,8 @@ db = pd.read_csv(input)
 #plt.plot(db["NormalDFT2-Spec"].values)
 #plt.plot(db["MyTableDFT-Spec"].values)
 
-#plt.plot(db["MyTaylorDFT2-Spec"].values - db["NormalDFT2-Spec"].values)
-plt.plot(db["NormalFFT-Spec"].values,'-')
+#plt.plot(db["NormalDFT-Spec"].values -db["NormalFFT-Spec"].values)
+plt.plot(db["FFT-Spec"].values)
 
 
 
